@@ -13,9 +13,9 @@ LONG_DESCRIPTION = 'A POC package that allows lisencing of python libraries.'
 
 # Setting up
 setup(
-    name="license-keygen-test",
+    name="licensekeygentest",
     version=VERSION,
-    author="Rahul Ranjan",
+    author="Rahul R",
     author_email="<rahulranjan25.RR@gmail.com>",
     description=DESCRIPTION,
     long_description_content_type="text/markdown",
