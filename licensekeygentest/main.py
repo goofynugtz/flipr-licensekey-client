@@ -1,7 +1,6 @@
 import machineid
 import requests
 import json
-import sys
 import os
 
 class library():
@@ -20,7 +19,7 @@ class library():
         }
       })
     ).json()
-
+    # print(validation)
     if "errors" in validation:
       errs = validation["errors"]
       raise Exception("license validation failed: {}".format(
@@ -34,7 +33,7 @@ class library():
     activation_is_required = validation_code == 'FINGERPRINT_SCOPE_MISMATCH' or \
                              validation_code == 'NO_MACHINES' or \
                              validation_code == 'NO_MACHINE'
-
+    print(validation_code)
     if not activation_is_required:
       raise Exception("license {}".format(validation["meta"]["detail"]))
 
@@ -66,4 +65,3 @@ class library():
         ','.join(map(lambda e: "{} - {}".format(e["title"], e["detail"]).lower(), errs))
       ))
 
-    # return True, "license activated"
