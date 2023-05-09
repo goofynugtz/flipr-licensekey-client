@@ -34,7 +34,7 @@ class library():
                              validation_code == 'NO_MACHINE'
     print(validation_code)
     if not activation_is_required:
-      raise Exception("license {}".format(validation["meta"]["detail"]))
+      print("license {}".format(validation["meta"]["detail"]))
 
     activation = requests.post(
       "https://api.keygen.sh/v1/accounts/{}/machines".format(os.environ['KEYGEN_ACCOUNT_ID']),
