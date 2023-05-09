@@ -1,13 +1,12 @@
 import machineid
 import requests
 import json
-import os
 
 class library():
-  def __init__(self, license_key):
-    machine_fingerprint = machineid.hashed_id('example-app')
+  def __init__(self, keygen_account_id, license_key):
+    machine_fingerprint = machineid.hashed_id('app-name')
     validation = requests.post(
-      "https://api.keygen.sh/v1/accounts/{}/licenses/actions/validate-key".format(os.environ['KEYGEN_ACCOUNT_ID']),
+      f"https://api.keygen.sh/v1/accounts/{keygen_account_id}/licenses/actions/validate-key",
       headers={
         "Content-Type": "application/vnd.api+json",
         "Accept": "application/vnd.api+json"
@@ -29,38 +28,12 @@ class library():
       print("license has already been activated on this machine")
     
     validation_code = validation["meta"]["code"]
-    activation_is_required = validation_code == 'FINGERPRINT_SCOPE_MISMATCH' or \
-                             validation_code == 'NO_MACHINES' or \
-                             validation_code == 'NO_MACHINE'
-    print(validation_code)
-    if not activation_is_required:
-      print("license {}".format(validation["meta"]["detail"]))
-
-    activation = requests.post(
-      "https://api.keygen.sh/v1/accounts/{}/machines".format(os.environ['KEYGEN_ACCOUNT_ID']),
-      headers={
-        "Authorization": "License {}".format(license_key),
-        "Content-Type": "application/vnd.api+json",
-        "Accept": "application/vnd.api+json"
-      },
-      data=json.dumps({
-        "data": {
-          "type": "machines",
-          "attributes": {
-            "fingerprint": machine_fingerprint
-          },
-          "relationships": {
-            "license": {
-              "data": { "type": "licenses", "id": validation["data"]["id"] }
-            }
-          }
-        }
-      })
-    ).json()
-
-    if "errors" in activation:
-      errs = activation["errors"]
-      raise Exception("license activation failed: {}".format(
-        ','.join(map(lambda e: "{} - {}".format(e["title"], e["detail"]).lower(), errs))
-      ))
-
+    print(">> Validation Code:", validation_code)
+    invalid_code =  validation_code == "SUSPENDED" or \
+                    validation_code == "NOT_FOUND"
+    
+    if invalid_code:
+      if validation_code == "SUSPENDED":
+        raise Exception("License is suspended. Please contact the library administrator.")
+      if validation_code == "NOT_FOUND":
+        raise Exception("Invalid License Key. Please recheck license_key")
