@@ -2,5 +2,8 @@
 
 This is test environment for lisenced libraries over PyPi.
 
-```pip install licensekeygentest```
+To use this poc:
+```bash
+pip install licensekeygentest
+```
 
