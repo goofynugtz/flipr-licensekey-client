@@ -23,12 +23,12 @@ class library():
 
     if "errors" in validation:
       errs = validation["errors"]
-      raise Exception("license validation failed: {}".format(
+      return False, "license validation failed: {}".format(
         map(lambda e: "{} - {}".format(e["title"], e["detail"]).lower(), errs)
-      ))
+      )
 
     if validation["meta"]["valid"]:
-      print("license has already been activated on this machine")
+      return True, "license has already been activated on this machine"
     
     validation_code = validation["meta"]["code"]
     activation_is_required = validation_code == 'FINGERPRINT_SCOPE_MISMATCH' or \
@@ -36,7 +36,7 @@ class library():
                              validation_code == 'NO_MACHINE'
 
     if not activation_is_required:
-      raise Exception("license {}".format(validation["meta"]["detail"]))
+      return False, "license {}".format(validation["meta"]["detail"])
 
     activation = requests.post(
       "https://api.keygen.sh/v1/accounts/{}/machines".format(os.environ['KEYGEN_ACCOUNT_ID']),
@@ -62,8 +62,8 @@ class library():
 
     if "errors" in activation:
       errs = activation["errors"]
-      raise Exception("license activation failed: {}".format(
+      return False, "license activation failed: {}".format(
         ','.join(map(lambda e: "{} - {}".format(e["title"], e["detail"]).lower(), errs))
-      ))
+      )
 
-    # return True, "license activated"
+    return True, "license activated"
