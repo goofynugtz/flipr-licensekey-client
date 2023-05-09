@@ -19,7 +19,6 @@ class library():
         }
       })
     ).json()
-    # print(validation)
     if "errors" in validation:
       errs = validation["errors"]
       raise Exception("license validation failed: {}".format(
