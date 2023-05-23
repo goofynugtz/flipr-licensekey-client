@@ -5,11 +5,11 @@ import time
 
 class library():
 
-  def __init__(self, license_key, email):
-    checkValidation = threading.Thread(target=self.validate, args=[license_key, email])
+  def __init__(self, license_key, email, debug=False):
+    checkValidation = threading.Thread(target=self.validate, args=[license_key, email, debug])
     checkValidation.start()
 
-  def validate(self, license_key, email):
+  def validate(self, license_key, email, debug):
     while (True):
       try:
         validation = requests.get(
@@ -24,8 +24,8 @@ class library():
           })
         )
         validation_code = validation.json()
-        # CASE: DEBUG Only
-        print(f"[{validation.status_code}] Response >> Status:", validation_code)
+        if debug:
+          print(f"[{validation.status_code}] Response >> Status:", validation_code)
 
         if (validation.status_code != '200'):
           invalid_code =  validation_code == "SUSPENDED" or \
@@ -55,6 +55,6 @@ class library():
     counter = 0;
     while True:
       time.sleep(1)
-      print(f"Main thread counter: {counter}")
+      print(f"Main thread: {counter}")
       counter+=1
 
