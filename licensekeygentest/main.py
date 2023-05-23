@@ -1,49 +1,60 @@
-import machineid
+import threading, _thread
 import requests
 import json
+import time
 
 class library():
-  def __init__(self, keygen_account_id, license_key, email):
-    machine_fingerprint = machineid.hashed_id('app-name')
-    validation = requests.post(
-      f"https://api.keygen.sh/v1/accounts/{keygen_account_id}/licenses/actions/validate-key",
-      headers={
-        "Content-Type": "application/vnd.api+json",
-        "Accept": "application/vnd.api+json"
-      },
-      data=json.dumps({
-        "meta": {
-          "scope": { "user": f"{email}" },
-          "key": license_key
-        }
-      })
-    ).json()
-    if "errors" in validation:
-      errs = validation["errors"]
-      raise Exception("license validation failed: {}".format(
-        map(lambda e: "{} - {}".format(e["title"], e["detail"]).lower(), errs)
-      ))
 
-    if validation["meta"]["valid"]:
-      print("license has already been activated on this machine")
-    
-    validation_code = validation["meta"]["code"]
-    print(">> Validation Code:", validation_code)
-    invalid_code =  validation_code == "SUSPENDED" or \
-                    validation_code == "NOT_FOUND" or \
-                    validation_code == "OVERDUE"   or \
-                    validation_code == "EXPIRED"   or \
-                    validation_code == "USER_SCOPE_MISMATCH"
-                    
-    
-    if invalid_code:
-      if validation_code == "SUSPENDED":
-        raise Exception("License is suspended. Please contact the library administrator.")
-      if validation_code == "NOT_FOUND":
-        raise Exception("Invalid License Key. Please recheck license_key")
-      if validation_code == "OVERDUE":
-        raise Exception("Invalid License Key. Key is Overdue.")
-      if validation_code == "EXPIRED":
-        raise Exception("License Key has been expired.")     
-      if validation_code == "USER_SCOPE_MISMATCH":
-        raise Exception("Incorrect email id. Verify email id.")
+  def __init__(self, license_key, email):
+    checkValidation = threading.Thread(target=self.validate, args=[license_key, email])
+    checkValidation.start()
+
+  def validate(self, license_key, email):
+    while (True):
+      try:
+        validation = requests.get(
+          f"https://licensing.sr.flipr.ai/api/actions/validate/",
+          headers={
+            "Content-Type": "application/json",
+            "Accept": "application/json"
+          },
+          data=json.dumps({
+            "email": f"{email}",
+            "key": f"{license_key}"
+          })
+        )
+        validation_code = validation.json()
+        # CASE: DEBUG Only
+        print(f"[{validation.status_code}] Response >> Status:", validation_code)
+
+        if (validation.status_code != '200'):
+          invalid_code =  validation_code == "SUSPENDED" or \
+                          validation_code == "INVALID"   or \
+                          validation_code == "EXPIRED"   or \
+                          validation_code == "USER_SCOPE_MISMATCH"
+
+          if invalid_code:
+            _thread.interrupt_main()
+            if validation_code == "SUSPENDED":
+              raise Exception("License is suspended. Please contact the library administrator.\n")
+            if validation_code == "INVALID":
+              raise Exception("Invalid License Key. Please recheck license_key.\n")
+            if validation_code == "EXPIRED":
+              raise Exception("License Key has been expired.\n")
+            if validation_code == "USER_SCOPE_MISMATCH":
+              raise Exception("Incorrect email id. Verify email id.\n")
+        # time.sleep(60*60*24)        # 1 day
+        time.sleep(10)              # Every 10 secs
+
+      except requests.ConnectionError:
+        _thread.interrupt_main()
+        raise Exception("License validation request could not be made. Please make sure you are connected to the internet.\n")
+
+
+  def some_other_process(self):
+    counter = 0;
+    while True:
+      time.sleep(1)
+      print(f"Main thread counter: {counter}")
+      counter+=1
+
