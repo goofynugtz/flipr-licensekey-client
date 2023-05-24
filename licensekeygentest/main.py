@@ -28,6 +28,9 @@ class library():
           print(f"[{validation.status_code}] Response >> Status:", validation_code)
 
         if (validation.status_code != '200'):
+          if (validation.status_code/400 == 1):
+            _thread.interrupt_main()
+
           invalid_code =  validation_code == "SUSPENDED" or \
                           validation_code == "INVALID"   or \
                           validation_code == "EXPIRED"   or \
