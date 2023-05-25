@@ -1,6 +1,6 @@
 from licensekeygentest import library
 
-testing = library(email="double.r4rahulandranjan.v1.2@gmail.com", 
-              license_key="ajOt0VLJjcOhN+5UFGo94Qs8lcBCxU9EMBLt1rDvNObDvBUlfx8flhs0mSeE/AQ0T1CGBhImtUeMoNm/Nnv3UQ==")
+testing = library("double.r4rahulandranjan.v1.2@gmail.com", 
+              "gVR8jXx2VECj52SzQ4Bac3FAn5wxl/dNuS68hffHvVR6+Xz+VpnJy4SJbYpN8Gv6541Jskf2byQTKf2Xs+V47A==", 1)
 
 testing.some_other_process()
