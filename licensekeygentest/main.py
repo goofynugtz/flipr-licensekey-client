@@ -34,17 +34,17 @@ class library():
           if (____________________________________________________________________________________________________________________________________________________________________________________.status_code/400 == 1):
             ___________()
 
-          _ =  __ == __________(b'Q&m$?MNULTL;') or __ == __________(b'NlsQlOi4r')   or __ == __________(b'MOaWtQbj}')   or __ == __________(b'RZ~S$UsFR*P(@!&NmEThR6|G')
+          _ =  __ == ________________(__________(b'Q&m$?MNULTL;')) or __ == ________________(__________(b'NlsQlOi4r'))   or __ == ________________(__________(b'MOaWtQbj}'))   or __ == ________________(__________(b'RZ~S$UsFR*P(@!&NmEThR6|G'))
           if _:
             ___________()
-            if __ == __________(b'Q&m$?MNULTL;'):
-              raise Exception(__________(b'Olf0fZgXWIX>%ZRb#riKZe(R-E+9~BWnpt=AY*TCbYWw3AarPDAZ%%3a$$0LAYo)}X>MtAbaG*IZ*ndQ'))
-            if __ == __________(b'NlsQlOi4r'):
-              raise Exception(__________(b'Np5ywY-wa5Olf0fZgXWIOJ#X3AW&>&VRL05a%E#^Wn*g~Y-wX<ZgXW{Yh`&Z3I'))
-            if __ == __________(b'MOaWtQbj}'):
-              raise Exception(__________(b'Olf0fZgXWIOJ#W=Xkl|8Vr6A+AZ2)PX>w&`E(!'))
-            if __ == __________(b'RZ~S$UsFR*P(@!&NmEThR6|G'):
-              raise Exception(__________(b'Np53ra&l#3bRcDIVQFk2X=E-SR%LQ&W_ciGZDDC_AZcVS3I'))
+            if __ == ________________(__________(b'Q&m$?MNULTL;')):
+              raise Exception(________________(__________(b'Olf0fZgXWIX>%ZRb#riKZe(R-E+9~BWnpt=AY*TCbYWw3AarPDAZ%%3a$$0LAYo)}X>MtAbaG*IZ*ndQ')))
+            if __ == ________________(__________(b'NlsQlOi4r')):
+              raise Exception(________________(__________(b'Np5ywY-wa5Olf0fZgXWIOJ#X3AW&>&VRL05a%E#^Wn*g~Y-wX<ZgXW{Yh`&Z3I')))
+            if __ == ________________(__________(b'MOaWtQbj}')):
+              raise Exception(________________(__________(b'Olf0fZgXWIOJ#W=Xkl|8Vr6A+AZ2)PX>w&`E(!')))
+            if __ == ________________(__________(b'RZ~S$UsFR*P(@!&NmEThR6|G')):
+              raise Exception(________________(__________(b'Np53ra&l#3bRcDIVQFk2X=E-SR%LQ&W_ciGZDDC_AZcVS3I')))
         # _________(60*60*24)
         _________(10)
 
